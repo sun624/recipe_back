@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const{randRecipe} = require("./Utilities");
+const { getRecipe,getRandomFood } = require("./Utilities");
 
 const app = express();
 
@@ -17,9 +17,11 @@ app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}.`);
 });
 
-app.get("/index.html", (req, res) => {
-    console.log("INside GET")
-  //res.send("Success");
+app.get("/index.html", async (req, res) => {
+    console.log("INside GET");
+
+    const recipe = await getRecipe(getRandomFood());
+  res.send(recipe);
   //send back default recipes from API
 
 });

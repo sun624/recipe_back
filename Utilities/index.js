@@ -1,20 +1,32 @@
-const foodAPI = "http://www.recipepuppy.com/api/";
-const foodAPI_query = "?i=onions,garlic&q=omelet&p=1";
+
+
+const axios = require("axios");
+
+function randIndex(length){
+    return Math.floor(Math.random()*length);
+}
 
 function getRandomFood(){
 
     const foodArray = ["burger","pasta","taco","salads","vegeterian","pizza","wing","sandwich","fries","hotdog"]
 
-    const randIdx = Math.floor(Math.random()*recipeArray.length);
-
-    return foodArray[randIdx];
+    return foodArray[randIndex(foodArray.length)];
 
 }
 
-function getRecipe(food){
-    
+async function getRecipe(food){
+    const foodAPI =`http://www.recipepuppy.com/api/?q=${food}&p=1`;
+   
+    const res = await axios(foodAPI);
+    const foodCollection = res.data.results;
+
+    return foodCollection[randIndex(foodCollection.length)];
+
+
+
 }
 
-module.exports ={
-    getRandomRecipe:randRecipe
-}
+module.exports = {
+  getRecipe,
+  getRandomFood
+};
