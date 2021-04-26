@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const{randRecipe} = require("./Utilities");
 
 const app = express();
 
@@ -20,5 +21,5 @@ app.get("/index.html", (req, res) => {
     console.log("INside GET")
   //res.send("Success");
   //send back default recipes from API
-    
+
 });
