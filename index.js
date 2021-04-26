@@ -16,3 +16,9 @@ app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}.`);
 });
 
+app.get("/index.html", (req, res) => {
+    console.log("INside GET")
+  //res.send("Success");
+  //send back default recipes from API
+    
+});
