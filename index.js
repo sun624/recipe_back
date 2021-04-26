@@ -17,6 +17,10 @@ app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}.`);
 });
 
+ms_post_feature
+app.post("/", (req, res) => {
+  res.json("success");
+
 app.get("/index.html", async (req, res) => {
   console.log("INside GET");
   //send back default recipes from API
