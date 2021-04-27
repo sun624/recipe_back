@@ -12,7 +12,25 @@ const MongoClient = require("mongodb").MongoClient;
     fname: "John",
     lname: "Doe",
     email: "jdoe@example.com"
-    recipes: |DATA from Spoonacular API|
+    Recipes:[   
+        {apiRecipes:[ {
+                id:"1234"
+                title:"example",
+                image:"url",
+                ingredients:"blah"
+                instruction:"blah"
+            },{
+                ...
+            }],
+        },
+        {ownRecipes:[{
+                id:"001",
+                ...
+            },{
+                ...
+            }]
+        }
+        ]
   }
 */
 
@@ -55,7 +73,7 @@ app.get("/index.html", async (req, res) => {
 });
 
 //get homepage with sign in
-app.get("/profile", async (req, res) => {
+app.get("/index/profile", async (req, res) => {
   console.log("Inside Get");
   //return user specific recipe from database
   const {id} = req.body;
