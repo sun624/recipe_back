@@ -3,7 +3,7 @@ const cors = require("cors");
 const { getRecipe, getRandomFood } = require("./Utilities");
 const MongoClient = require("mongodb").MongoClient;
 
-
+const app = express();
 app.use(cors());
 app.use(express.json()); //data from json
 app.use(express.urlencoded({ extended: true }));//data from form
