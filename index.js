@@ -29,10 +29,13 @@ MongoClient.connect(
 
     app.post("/recipes", (req, res) => {
       recipesCollection.insertOne(req.body).then((result) => {
+        recipesCollection
+          .find()
+          .toArray()
+          .then((result) => res.send(result));
         console.log(result);
       });
     });
-    //app.listen(/* ... */);
   }
 );
 
