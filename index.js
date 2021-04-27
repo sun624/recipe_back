@@ -54,9 +54,15 @@ MongoClient.connect(
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
     const recipesCollection = db.collection("recipes");
-    //app.use(/* ... */);
     //app.get(/* ... */);
+    app.get("/index.html", async (req, res) => {
+      console.log("INside GET");
+      //send back default recipes from API
+      const recipe = await getRecipe(getRandomFood());
+      res.send(recipe);
+    });
 
+    //app.post(/* ... */);
     app.post("/recipes", (req, res) => {
       recipesCollection.insertOne(req.body).then((result) => {
         recipesCollection
@@ -69,12 +75,6 @@ MongoClient.connect(
   }
 );
 // get homepage with no sign in
-app.get("/index.html", async (req, res) => {
-  console.log("INside GET");
-  //send back default recipes from API
-  const recipe = await getRecipe(getRandomFood());
-  res.send(recipe);
-});
 
 //get homepage with sign in
 app.get("/index/profile", (req, res) => {
