@@ -26,7 +26,7 @@ function getRandomFood() {
 }
 
 async function getRecipe(food) {
-  const foodAPI = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&query=${food}&addRecipeInformation=true&instructionsRequired=true`;
+  const foodAPI = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULER_API_KEY}&query=${food}&addRecipeInformation=true&instructionsRequired=true`;
 
   const res = await axios(foodAPI);
   const foodCollection = res.data.results;
