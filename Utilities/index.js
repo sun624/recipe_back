@@ -1,9 +1,7 @@
-
-
 const axios = require("axios");
 
-function randIndex(length){
-    return Math.floor(Math.random()*length);
+function randIndex(length) {
+  return Math.floor(Math.random() * length);
 }
 
 function getRandomFood(){
@@ -22,11 +20,13 @@ async function getRecipe(food){
 
     return foodCollection[randIndex(foodCollection.length)];
 
+  const res = await axios(foodAPI);
+  const foodCollection = res.data.results;
 
-
+  return foodCollection[randIndex(foodCollection.length)];
 }
 
 module.exports = {
   getRecipe,
-  getRandomFood
+  getRandomFood,
 };
