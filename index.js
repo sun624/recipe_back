@@ -5,6 +5,17 @@ const { getRecipe, getRandomFood } = require("./Utilities");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
 
+/*
+  User data structure in MongoDB
+  {
+    uid: "123456",
+    fname: "John",
+    lname: "Doe",
+    email: "jdoe@example.com"
+    recipes: |DATA from Spoonacular API|
+  }
+*/
+
 app.use(cors());
 
 //data from json
@@ -35,10 +46,23 @@ MongoClient.connect(
     console.log("Connected to Database");
   }
 );
-
+// get homepage with no sign in
 app.get("/index.html", async (req, res) => {
   console.log("INside GET");
   //send back default recipes from API
   const recipe = await getRecipe(getRandomFood());
   res.send(recipe);
+});
+
+//get homepage with sign in
+app.get("/profile", async (req, res) => {
+  console.log("Inside Get");
+  //return user specific recipe from database
+  const {id} = req.body;
+  recipesCollection
+    .find({uid:id})
+    .toArray()
+    .then((result) => {
+      res.send(result.recipes);
+    });
 });
