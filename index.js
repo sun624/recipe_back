@@ -19,6 +19,7 @@ app.listen(PORT, () => {
 
 app.post("/", (req, res) => {
   res.json("success");
+});
 
 app.get("/index.html", async (req, res) => {
   console.log("INside GET");
