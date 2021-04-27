@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { getRecipe, getRandomFood } = require("./Utilities");
 
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
@@ -20,6 +21,7 @@ app.listen(PORT, () => {
 app.post("/", (req, res) => {
   res.json("success");
 });
+
 const connectionString =
   "mongodb+srv://RecipeAdmin:YPMR_42621@recipe.y3yjb.mongodb.net/RECIPE-FINDER?retryWrites=true&w=majority";
 
@@ -33,3 +35,10 @@ MongoClient.connect(
     console.log("Connected to Database");
   }
 );
+
+app.get("/index.html", async (req, res) => {
+  console.log("INside GET");
+  //send back default recipes from API
+  const recipe = await getRecipe(getRandomFood());
+  res.send(recipe);
+});
