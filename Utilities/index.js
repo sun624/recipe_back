@@ -8,7 +8,7 @@ function randIndex(length){
 
 function getRandomFood(){
 
-    const foodArray = ["burger","pasta","taco","salads","vegeterian","pizza","wing","sandwich","fries","hotdog"]
+    const foodArray = ["burger","pasta","taco","salads","vegeterian","pizza","sushi","sandwich","fries","hotdog"]
 
     return foodArray[randIndex(foodArray.length)];
 

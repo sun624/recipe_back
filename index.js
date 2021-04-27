@@ -73,7 +73,7 @@ app.get("/index.html", async (req, res) => {
 });
 
 //get homepage with sign in
-app.get("/index/profile", async (req, res) => {
+app.get("/index/profile", (req, res) => {
   console.log("Inside Get");
   //return user specific recipe from database
   const {id} = req.body;
