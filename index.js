@@ -1,12 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const { getRecipe, getRandomFood } = require("./Utilities");
+if (!process.env.PORT) {
+  require("./Secrets");
+}
 const MongoClient = require("mongodb").MongoClient;
 
-
+const app = express();
 app.use(cors());
 app.use(express.json()); //data from json
-app.use(express.urlencoded({ extended: true }));//data from form
+app.use(express.urlencoded({ extended: true })); //data from form
 /*
   User data structure in MongoDB
   {
@@ -36,10 +39,8 @@ app.use(express.urlencoded({ extended: true }));//data from form
   }
 */
 
-
 const PORT = process.env.PORT || 3000;
-const connectionString =
-  "mongodb+srv://RecipeAdmin:YPMR_42621@recipe.y3yjb.mongodb.net/RECIPE-FINDER?retryWrites=true&w=majority";
+const connectionString = `${process.env.MONGODB_KEY}`;
 
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}.`);
@@ -79,9 +80,9 @@ app.get("/index.html", async (req, res) => {
 app.get("/index/profile", (req, res) => {
   console.log("Inside Get");
   //return user specific recipe from database
-  const {id} = req.body;
+  const { id } = req.body;
   recipesCollection
-    .find({uid:id})
+    .find({ uid: id })
     .toArray()
     .then((result) => {
       res.send(result.recipes);
