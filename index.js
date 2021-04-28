@@ -39,6 +39,12 @@ app.use(express.urlencoded({ extended: true })); //data from form
   }
 */
 
+const path = require("path");
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname + "/auth.html"));
+});
+
 const PORT = process.env.PORT || 3000;
 const connectionString = `${process.env.MONGODB_KEY}`;
 
@@ -54,10 +60,54 @@ MongoClient.connect(
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
     const apiRecipesCollection = db.collection("api-recipes");
-    const userRecipesCollection = db.collection("user-recipes");
+    /*
+      {
+        userid:"123456789",
+        apirid:"001",
+        title:"abc",
+        image:"url",
+        steps:"abcdef"
+      }
+    */
+    const userRecipeCollection = db.collection("user-recipes");
+    /*
+      {
+        userid:"123456789",
+        ownrid:"001"
+        title:"abc",
+        image:"url",
+        steps:"abcdef"
+      }
+    */
     const usersCollection = db.collection("users");
+    /*
+      {
+        userid:"123456789",
+        fname:"John",
+        lname:"Doe",
+        email:"john@example.com"
+      }
+    */
 
+    //app.get random 4 recipes(/* ... */);
+    app.get("/index.html", async (req, res) => {
+      console.log("INside GET");
+      //send back default recipes from API
+      const recipe = [];
+      for (let i = 0; i < 4; i++) {
+        recipe[i] = await getRecipe(getRandomFood());
+      }
+
+      res.send(recipe);
+    });
+
+    //app.post(/* ... */);
     app.post("/recipes", (req, res) => {
+      const { uid, fname, lname, email, title, ingredients, steps } = req.body;
+
+      if (recipesCollections.find({ uid: uid }).toArray()) {
+      }
+
       recipesCollection.insertOne(req.body).then((result) => {
         recipesCollection
           .find()
@@ -77,12 +127,6 @@ MongoClient.connect(
 );
 
 // get homepage with no sign in
-app.get("/index.html", async (req, res) => {
-  console.log("INside GET");
-  //send back default recipes from API
-  const recipe = await getRecipe(getRandomFood());
-  res.send(recipe);
-});
 
 //get homepage with sign in
 app.get("/index/profile", (req, res) => {
