@@ -53,9 +53,9 @@ MongoClient.connect(
     if (err) return console.error(err);
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
-    const recipesCollection = db.collection("recipes");
-    //app.use(/* ... */);
-    //app.get(/* ... */);
+    const apiRecipesCollection = db.collection("api-recipes");
+    const userRecipesCollection = db.collection("user-recipes");
+    const usersCollection = db.collection("users");
 
     app.post("/recipes", (req, res) => {
       recipesCollection.insertOne(req.body).then((result) => {
@@ -66,8 +66,16 @@ MongoClient.connect(
         console.log(result);
       });
     });
+
+    app.delete("/recipes", (req, res) => {
+      const { uid } = req.body;
+      recipesCollection.deleteOne({ uid: uid }).then((result) => {
+        res.send(result.recipes);
+      });
+    });
   }
 );
+
 // get homepage with no sign in
 app.get("/index.html", async (req, res) => {
   console.log("INside GET");
