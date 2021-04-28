@@ -61,6 +61,9 @@ MongoClient.connect(
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
     const apiRecipesCollection = db.collection("api-recipes");
+
+    const userRecipesCollection = db.collection("user-recipes");
+    const usersCollection = db.collection("users");
     /*
       {
         userid:"123456789",
@@ -117,8 +120,16 @@ MongoClient.connect(
         console.log(result);
       });
     });
+
+    app.delete("/recipes", (req, res) => {
+      const { uid } = req.body;
+      recipesCollection.deleteOne({ uid: uid }).then((result) => {
+        res.send(result.recipes);
+      });
+    });
   }
 );
+
 // get homepage with no sign in
 
 //get homepage with sign in
