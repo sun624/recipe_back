@@ -3,6 +3,10 @@
 
 <head>
   <title>Google Auth Demo</title>
+
+  <meta name="google-signin-client_id" content="870711841901-kviglku4c7l9p0b1j5a0065k53931n61.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
   <script src="https://apis.google.com/js/api.js?onload=onLibraryLoaded" async defer></script>
 </head>
 <body>
@@ -15,6 +19,10 @@
   <button onclick="showCurrentUserInfo()">Show current user info</button>
   <button id="signout" onclick="signOut()">Sign out</button>
   <div id="name"></div>
+
+
+   <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+   
   <script>
 
     function onSignIn(googleUser) {

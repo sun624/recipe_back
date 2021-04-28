@@ -10,6 +10,13 @@ const app = express();
 app.use(cors());
 app.use(express.json()); //data from json
 app.use(express.urlencoded({ extended: true })); //data from form
+
+
+const path = require("path");
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname + "/auth.html"));
+});
 /*
   User data structure in MongoDB
   {
