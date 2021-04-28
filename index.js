@@ -59,8 +59,6 @@ MongoClient.connect(
     if (err) return console.error(err);
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
-    const apiRecipesCollection = db.collection("api-recipes");
-    const userRecipesCollection = db.collection("user-recipes");
     const usersCollection = db.collection("users");
     /*
       {
