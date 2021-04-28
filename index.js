@@ -10,13 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json()); //data from json
 app.use(express.urlencoded({ extended: true })); //data from form
-
-
-const path = require("path");
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/auth.html"));
-});
 /*
   User data structure in MongoDB
   {
@@ -46,6 +39,13 @@ app.get("/", (req, res) => {
   }
 */
 
+const path = require("path");
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname + "/auth.html"));
+});
+
+
 const PORT = process.env.PORT || 3000;
 const connectionString = `${process.env.MONGODB_KEY}`;
 
@@ -60,25 +60,54 @@ MongoClient.connect(
     if (err) return console.error(err);
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
-    const recipesCollection = db.collection("recipes");
+    const apiRecipesCollection = db.collection("api-recipes");
+    /*
+      {
+        userid:"123456789",
+        apirid:"001",
+        title:"abc",
+        image:"url",
+        steps:"abcdef"
+      }
+    */
+    const userRecipeCollection = db.collection("user-recipes");
+    /*
+      {
+        userid:"123456789",
+        ownrid:"001"
+        title:"abc",
+        image:"url",
+        steps:"abcdef"
+      }
+    */
+    const usersCollection = db.collection("users");
+    /*
+      {
+        userid:"123456789",
+        fname:"John",
+        lname:"Doe",
+        email:"john@example.com"
+      }
+    */
 
-    //app.get(/* ... */);
+    //app.get random 4 recipes(/* ... */);
     app.get("/index.html", async (req, res) => {
       console.log("INside GET");
       //send back default recipes from API
       const recipe = [];
-      for (let i = 0;i<4;i++){
+      for (let i = 0; i < 4; i++) {
         recipe[i] = await getRecipe(getRandomFood());
       }
-      
+
       res.send(recipe);
     });
 
     //app.post(/* ... */);
     app.post("/recipes", (req, res) => {
-      
-      const {title,ingredients,steps} = req.body;
+      const { uid, fname, lname, email, title, ingredients, steps } = req.body;
 
+      if (recipesCollections.find({ uid: uid }).toArray()) {
+      }
 
       recipesCollection.insertOne(req.body).then((result) => {
         recipesCollection
