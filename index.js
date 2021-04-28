@@ -60,6 +60,12 @@ MongoClient.connect(
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
     const apiRecipesCollection = db.collection("api-recipes");
+<<<<<<< HEAD
+=======
+
+    const userRecipesCollection = db.collection("user-recipes");
+    const usersCollection = db.collection("users");
+>>>>>>> master
     /*
       {
         userid:"123456789",
