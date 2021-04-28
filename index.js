@@ -10,34 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json()); //data from json
 app.use(express.urlencoded({ extended: true })); //data from form
-/*
-  User data structure in MongoDB
-  {
-    uid: "123456",
-    fname: "John",
-    lname: "Doe",
-    email: "jdoe@example.com"
-    Recipes:[   
-        {apiRecipes:[ {
-                id:"1234"
-                title:"example",
-                image:"url",
-                ingredients:"blah"
-                instruction:"blah"
-            },{
-                ...
-            }],
-        },
-        {ownRecipes:[{
-                id:"001",
-                ...
-            },{
-                ...
-            }]
-        }
-        ]
-  }
-*/
 
 const path = require("path");
 
@@ -60,10 +32,8 @@ MongoClient.connect(
     if (err) return console.error(err);
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
-    const apiRecipesCollection = db.collection("api-recipes");
 
-    const userRecipesCollection = db.collection("user-recipes");
-    const usersCollection = db.collection("users");
+    const apiRecipesCollection = db.collection("api-recipes");
     /*
       {
         userid:"123456789",
