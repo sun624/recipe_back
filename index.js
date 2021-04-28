@@ -61,16 +61,25 @@ MongoClient.connect(
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
     const recipesCollection = db.collection("recipes");
+
     //app.get(/* ... */);
     app.get("/index.html", async (req, res) => {
       console.log("INside GET");
       //send back default recipes from API
-      const recipe = await getRecipe(getRandomFood());
+      const recipe = [];
+      for (let i = 0;i<4;i++){
+        recipe[i] = await getRecipe(getRandomFood());
+      }
+      
       res.send(recipe);
     });
 
     //app.post(/* ... */);
     app.post("/recipes", (req, res) => {
+      
+      const {title,ingredients,steps} = req.body;
+
+
       recipesCollection.insertOne(req.body).then((result) => {
         recipesCollection
           .find()
