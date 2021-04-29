@@ -10,10 +10,9 @@ const app = express();
 app.use(cors());
 app.use(express.json()); //data from json
 app.use(express.urlencoded({ extended: true })); //data from form
+app.use(express.static("public"));
 
 const path = require("path");
-const { setupMaster } = require("cluster");
-const { get } = require("http");
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/auth.html"));
@@ -33,47 +32,18 @@ MongoClient.connect(
     if (err) return console.error(err);
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
+    const recipeColletion = client.db("recipes").collection("recipes-favs");
 
-    const apiRecipesCollection = db.collection("api-recipes");
-    /*
-      {
-        userid:"123456789",
-        apirid:"001",
-        title:"abc",
-        image:"url",
-        steps:"abcdef"
-      }
-    */
-    const userRecipeCollection = db.collection("user-recipes");
-    /*
-      {
-        userid:"123456789",
-        ownrid:"001"
-        title:"abc",
-        image:"url",
-        steps:"abcdef"
-      }
-    */
-    const usersCollection = db.collection("users");
-    /*
-      {
-        userid:"123456789",
-        fname:"John",
-        lname:"Doe",
-        email:"john@example.com"
-      }
-    */
-
-    //app.get random 4 recipes(/* ... */);
-    app.get("/index.html", async (req, res) => {
-      console.log("INside GET");
-      //send back default recipes from API
-      const recipe = [];
-      for (let i = 0; i < 4; i++) {
-        recipe[i] = await getRecipe(getRandomFood());
-      }
-
-      res.send(recipe);
+    //GET / best practice is to use query parameters
+    app.get("/", (req, res) => {
+      console.log("Inside Get");
+      const { email } = req.body;
+      recipeColletion
+        .find({ email: email })
+        .toArray()
+        .then((result) => {
+          res.send(result);
+        });
     });
 
     //app.post(/* ... */);
