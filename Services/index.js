@@ -1,18 +1,22 @@
 const axios = require("axios");
 
-// if(!process.env.PORT) {
-//   require("../Secrets");
-// }
+if (!process.env.PORT) {
+  require("../Secrets");
+}
 
+async function getRecipe(id) {
+  const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  console.log(URL);
+  try {
+    console.log("before axios");
+    const res = await axios.get(URL);
+    console.log("after axios");
+    const recipes = res.data.meals;
+    return recipes;
+  } catch (error) {
 
-async function getRecipefromMealDB(id) {
-  intId = parseInt(id);
-  const URL = `www.themealdb.com/api/json/v1/1/lookup.php?i=${intId}`;
-  const res = await axios.get(URL);
-  const recipes = res.data.meals;
-  console.log(recipes)
-  return recipes[0];
+  }
 }
 module.exports = {
-  getRecipe: getRecipefromMealDB,
+  getRecipe,
 };
