@@ -46,50 +46,23 @@ MongoClient.connect(
         });
     });
 
-    //app.post(/* ... */);
-    app.post("/recipes", async (req, res) => {
-      const {
-        isApiRecipe,
-        uid,
-        fname,
-        lname,
+    //POST /
+    app.post("/", async (req, res) => {
+      console.log(req.body);
+      const { email, uid, recipe } = req.body;
+
+      if (!email || !recipe) {
+        return res.status(400).json({ error: "email and recipe are required" });
+      }
+
+      const newRecipe = {
         email,
-        title,
-        ingredients,
-        steps,
-      } = req.body;
+        uid: getUID(),
+        recipe,
+      };
+      recipeColletion.insertOne(newRecipe);
 
-      if (!usersCollection.find({ uid: uid }).toArray()) {
-        const user = {
-          uid: uid,
-          fname: fname,
-          lname: lname,
-          email: email,
-        };
-        usersCollection.insertOne(user);
-      }
-
-      if (isApiRecipe) {
-        const apiRecipe = {
-          uid: uid,
-          ownrid: getId(),
-          title: title,
-          image: await getPhoto(),
-          ingredients: ingredients,
-          steps: steps,
-        };
-        apiRecipesCollection.insertOne(apiRecipe);
-      } else {
-        const userRecipe = {
-          uid: uid,
-          ownrid: getId(),
-          title: title,
-          image: await getPhoto(),
-          ingredients: ingredients,
-          steps: steps,
-        };
-        userRecipeCollection.insertOne(userRecipe);
-      }
+      res.send("sccuess");
     });
 
     //app.PUT update current recipes
