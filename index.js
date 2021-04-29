@@ -94,26 +94,17 @@ MongoClient.connect(
       }
     });
 
-    app.delete("/recipes", (req, res) => {
-      const { uid } = req.body;
-      recipesCollection.deleteOne({ uid: uid }).then((result) => {
-        res.send(result.recipes);
-      });
+    //DELETE
+    app.delete("/", (req, res) => {
+      console.log("INside DElete");
+      const { email, uid } = req.body;
+
+      recipeColletion.deleteOne({ email: email, uid: uid }).then(() =>
+        recipeColletion
+          .find({ email: email })
+          .toArray()
+          .then((result) => res.send(result))
+      );
     });
   }
 );
-
-// get homepage with no sign in
-
-//get homepage with sign in
-app.get("/index/profile", (req, res) => {
-  console.log("Inside Get");
-  //return user specific recipe from database
-  const { id } = req.body;
-  recipesCollection
-    .find({ uid: id })
-    .toArray()
-    .then((result) => {
-      res.send(result.recipes);
-    });
-});
