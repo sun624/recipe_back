@@ -10,7 +10,7 @@ async function getRecipefromMealDB(id) {
   const URL = `www.themealdb.com/api/json/v1/1/lookup.php?i=${intId}`;
   const res = await axios.get(URL);
   const recipes = res.data.meals;
-
+  console.log(recipes)
   return recipes[0];
 }
 module.exports = {
