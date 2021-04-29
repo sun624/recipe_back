@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json()); //data from json
 app.use(express.urlencoded({ extended: true })); //data from form
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}.`);
 });
@@ -40,7 +40,7 @@ MongoClient.connect(
 
     //POST /
     app.post("/", async (req, res) => {
-      console.log(req.body);
+
       const { email, mealId } = req.body;
 
       const newRecipe = {
@@ -49,6 +49,7 @@ MongoClient.connect(
         recipe: await getRecipe(mealId),
       };
       recipeColletion.insertOne(newRecipe);
+      console.log(newRecipe)
 
       res.send("Added Successfully");
     });

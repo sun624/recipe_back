@@ -6,7 +6,6 @@ if (!process.env.PORT) {
 
 async function getRecipe(id) {
   const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-  console.log(URL);
   try {
     const res = await axios.get(URL);
     const recipes = res.data.meals;
