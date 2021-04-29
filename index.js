@@ -37,7 +37,7 @@ MongoClient.connect(
         .toArray()
         .then((result) => {
           res.send(result);
-        });
+        }); 
     });
 
     //POST /
@@ -48,15 +48,16 @@ MongoClient.connect(
       // if (!email || !recipe) {
       //   return res.status(400).json({ error: "email and recipe are required" });
       // }
-
-      const newRecipe = {
-        email,
-        mealId: mealId,
-        recipe: await getRecipe(mealId),
-      };
-      recipeColletion.insertOne(newRecipe);
-
       res.send("Successfully Added to your favourates");
+
+    //   const newRecipe = {
+    //     email,
+    //     mealId: mealId,
+    //     recipe: await getRecipe(mealId),
+    //   };
+    //   recipeColletion.insertOne(newRecipe);
+
+    //   res.send("Successfully Added to your favourates");
     });
 
     //PUT / :UPDATE operation
