@@ -49,9 +49,9 @@ MongoClient.connect(
         recipe: await getRecipe(mealId),
       };
       recipeColletion.insertOne(newRecipe);
-      console.log(newRecipe)
+      //console.log(newRecipe)
 
-      res.send("Added Successfully");
+      res.send({status:"Added Successfully"});
     });
 
     //PUT / :UPDATE operation
