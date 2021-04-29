@@ -65,46 +65,32 @@ MongoClient.connect(
       res.send("sccuess");
     });
 
-    //app.PUT update current recipes
-    app.put("/recipes", async (req, res) => {
-      const { isApiRecipe, uid, title, ingredients, steps } = req.body;
+    //PUT / :UPDATE operation
+    app.put("/", async (req, res) => {
+      console.log("Inside PUT");
+      const { email, uid, recipe } = req.body;
 
-      if (isApiRecipe) {
-        apiRecipesCollection
+      if (email || uid || recipe) {
+        recipeColletion
           .findOneAndUpdate(
-            { uid: uid },
+            { uid: uid, email: email },
             {
               $set: {
+                email: email,
                 uid: uid,
-                title: title,
-                image: await getPhoto(title, ingredients),
-                ingredients: ingredients,
-                steps: steps,
+                recipe: recipe,
               },
             },
-            { returnNewDocument: true }
+            { returnOriginal: false }
           )
-          .then((result) => {
-            res.send(result);
-          });
-      } else {
-        userRecipeCollection
-          .findOneAndUpdate(
-            { uid: uid },
-            {
-              $set: {
-                uid: uid,
-                title: title,
-                ingredients: ingredients,
-                image: await getPhoto(title, ingredients),
-                steps: steps,
-              },
-            },
-            { returnNewDocument: true }
-          )
-          .then((result) => {
-            res.send(result);
-          });
+          .then(() =>
+            recipeColletion
+              .find({ email: email })
+              .toArray()
+              .then((result) => {
+                res.send(result);
+              })
+          );
       }
     });
 
