@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { getRecipe, getRandomFood, getId,getPhoto } = require("./Utilities");
+const { getRecipe, getRandomFood, getId, getPhoto } = require("./Utilities");
 if (!process.env.PORT) {
   require("./Secrets");
 }
@@ -33,12 +33,8 @@ MongoClient.connect(
     if (err) return console.error(err);
     console.log("Connected to Database");
     const db = client.db("recipe-finder");
-<<<<<<< HEAD
-    const usersCollection = db.collection("users");
-=======
 
     const apiRecipesCollection = db.collection("api-recipes");
->>>>>>> master
     /*
       {
         userid:"123456789",
@@ -124,21 +120,13 @@ MongoClient.connect(
         };
         userRecipeCollection.insertOne(userRecipe);
       }
-
-
     });
 
     //app.PUT update current recipes
-    app.put("/recipes",async (req,res)=>{
-      const {
-        isApiRecipe,
-        uid,
-        title,
-        ingredients,
-        steps
-      } = req.body;
+    app.put("/recipes", async (req, res) => {
+      const { isApiRecipe, uid, title, ingredients, steps } = req.body;
 
-      if(isApiRecipe){
+      if (isApiRecipe) {
         apiRecipesCollection
           .findOneAndUpdate(
             { uid: uid },
@@ -156,7 +144,7 @@ MongoClient.connect(
           .then((result) => {
             res.send(result);
           });
-      }else{
+      } else {
         userRecipeCollection
           .findOneAndUpdate(
             { uid: uid },
@@ -175,9 +163,7 @@ MongoClient.connect(
             res.send(result);
           });
       }
-
-
-    })
+    });
 
     app.delete("/recipes", (req, res) => {
       const { uid } = req.body;
