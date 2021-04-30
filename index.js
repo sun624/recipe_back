@@ -29,11 +29,10 @@ MongoClient.connect(
     //GET /
     app.get("/", (req, res) => {
       console.log("Inside Get");
-      const{email} = req.query;
-  
-    
+      const { email } = req.query;
+
       recipeColletion
-        .find({email:email})
+        .find({ email: email })
         .toArray()
         .then((result) => {
           // console.log(result)

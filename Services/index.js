@@ -10,9 +10,7 @@ async function getRecipe(id) {
     const res = await axios.get(URL);
     const recipes = res.data.meals[0];
     return recipes;
-  } catch (error) {
-
-  }
+  } catch (error) {}
 }
 module.exports = {
   getRecipe,
