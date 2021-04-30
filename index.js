@@ -53,13 +53,11 @@ MongoClient.connect(
       };
 
       //if it is new recipe for this user, add into database
-      if (
-        !recipeColletion.find({ email: email }, { mealId: mealId }).count() > 0
-      ) {
+  
         recipeColletion.insertOne(newRecipe);
 
         res.send({ status: "Added Successfully" });
-      }
+      
     });
 
     //PUT / :UPDATE operation
