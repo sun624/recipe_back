@@ -1,9 +1,5 @@
 const axios = require("axios");
 
-if (!process.env.PORT) {
-  require("../Secrets");
-}
-
 /*
  *  get recipe from API
  */
