@@ -5,15 +5,8 @@ const { getRecipe, test } = require("./Services");
 //   require("./Secrets");
 // }
 const MongoClient = require("mongodb").MongoClient;
-const app = express();
-app.use(cors());
-app.use(express.json()); //data from json
-app.use(express.urlencoded({ extended: true })); //data from form
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-  console.log(`Server is listening on ${PORT}.`);
-});
 
+const app = express();
 const connectionString =
   "mongodb+srv://sun624:19900624@cluster0.yrtr8.mongodb.net/recipes?retryWrites=true&w=majority";
 MongoClient.connect(
@@ -24,23 +17,32 @@ MongoClient.connect(
   (err, client) => {
     console.log("connect to Database");
 
+    app.use(cors());
+    app.use(express.json()); //data from json
+    app.use(express.urlencoded({ extended: true })); //data from form
+    const PORT = process.env.PORT || 8000;
+    app.listen(PORT, () => {
+      console.log(`Server is listening on ${PORT}.`);
+    });
     const recipeColletion = client.db("recipes").collection("recipes-favs");
 
     //GET /
     app.get("/", (req, res) => {
       console.log("Inside Get");
-      const { email } = req.body;
+      const{email} = req.query;
+  
+    
       recipeColletion
-        .find({ email: email })
+        .find({email:email})
         .toArray()
         .then((result) => {
+          // console.log(result)
           res.send(result);
         });
     });
 
     //POST /
     app.post("/", async (req, res) => {
-
       const { email, mealId } = req.body;
 
       const newRecipe = {
@@ -51,22 +53,22 @@ MongoClient.connect(
       recipeColletion.insertOne(newRecipe);
       //console.log(newRecipe)
 
-      res.send({status:"Added Successfully"});
+      res.send({ status: "Added Successfully" });
     });
 
     //PUT / :UPDATE operation
     app.put("/", async (req, res) => {
       console.log("Inside PUT");
-      const { email, uid, recipe } = req.body;
+      const { email, mealId, recipe } = req.body;
 
-      if (email || uid || recipe) {
+      if (email || mealId || recipe) {
         recipeColletion
           .findOneAndUpdate(
-            { uid: uid, email: email },
+            { mealId: mealId, email: email },
             {
               $set: {
                 email: email,
-                uid: uid,
+                mealId: mealId,
                 recipe: recipe,
               },
             },
@@ -86,9 +88,9 @@ MongoClient.connect(
     //DELETE
     app.delete("/", (req, res) => {
       console.log("INside DElete");
-      const { email, uid } = req.body;
+      const { email, mealId } = req.body;
 
-      recipeColletion.deleteOne({ email: email, uid: uid }).then(() =>
+      recipeColletion.deleteOne({ email: email, mealId: mealId }).then(() =>
         recipeColletion
           .find({ email: email })
           .toArray()
